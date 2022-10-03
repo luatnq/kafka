@@ -2,7 +2,7 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      group-id: foo
+      group-id: pay-gate
 message:
   kafka:
     topic-name1: first-topic
