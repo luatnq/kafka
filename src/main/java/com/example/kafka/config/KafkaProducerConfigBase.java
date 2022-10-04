@@ -12,16 +12,15 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 
 
-public class KafkaProducerConfigBase<T> {
+public class KafkaProducerConfigBase<T, S> {
 
-  private final Class<T> tClass;
-
+  private final Class<S> sClass;
 
   @Value("${spring.kafka.bootstrap-servers}")
   private String bootstrapServerAddress;
 
-  public KafkaProducerConfigBase(Class<T> tClass) {
-    this.tClass = tClass;
+  public KafkaProducerConfigBase(Class<S> sClass) {
+    this.sClass = sClass;
   }
 
   @Bean
@@ -30,7 +29,7 @@ public class KafkaProducerConfigBase<T> {
     Map<String, Object> configMap = new HashMap<>();
     configMap.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServerAddress);
     configMap.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-    configMap.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, tClass);
+    configMap.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, sClass);
     return new DefaultKafkaProducerFactory<String, T>(configMap);
   }
 

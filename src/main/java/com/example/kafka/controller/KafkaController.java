@@ -18,6 +18,6 @@ public class KafkaController {
     public void kafkaProducerApi(@RequestBody Request message)
     {
 //        System.out.println(message);
-        produceMessageService.pushMessage("payment-transaction", message);
+        produceMessageService.pushMessage("payment-transaction-1", message);
     }
 }

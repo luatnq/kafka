@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class KafkaConsumer {
 
     @KafkaListener(groupId = "${spring.kafka.consumer.group-id}",
-            topics = "payment-transaction",
+            topics = "payment-transaction-1",
             containerFactory = "listenerContainerFactory")
     public void receivedMessageForDump(Request message)
     {

@@ -2,6 +2,8 @@ package com.example.kafka.config;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.example.kafka.model.Request;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,22 +24,21 @@ public class KafkaConsumerConfig {
 
 
   @Bean
-  public ConsumerFactory<String, String> consumerFactory()
+  public ConsumerFactory<String, Request> consumerFactory()
   {
     Map<String, Object> configMap = new HashMap<>();
     configMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServerAddress);
     configMap.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
     //configMap.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 256);     // uncomment if want to get a bulk of message
     configMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-    configMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-    configMap.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+    configMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
     return new DefaultKafkaConsumerFactory<>(configMap);
   }
 
   @Bean
-  public ConcurrentKafkaListenerContainerFactory<String, String> listenerContainerFactory()
+  public ConcurrentKafkaListenerContainerFactory<String, Request> listenerContainerFactory()
   {
-    ConcurrentKafkaListenerContainerFactory<String, String> kafkaListener = new ConcurrentKafkaListenerContainerFactory();
+    ConcurrentKafkaListenerContainerFactory<String, Request> kafkaListener = new ConcurrentKafkaListenerContainerFactory();
     kafkaListener.setConsumerFactory(consumerFactory());
     //kafkaListener.setBatchListener(true);     // uncomment if want to get a bulk of message
     return kafkaListener;
